@@ -37,7 +37,7 @@ def lambda_handler(event, context):
         filename = obj['Key']
         identifier = filename[:filename.index("_")]
 
-        if filename.endswith('.parquet') and filename.startswith('green'):
+        if filename.startswith('green') or filename.startswith('yellow'):
             response = s3_client.get_object(Bucket=bucket_name, Key=filename)
             parquet_file = response['Body'].read()
             raw_data = pd.read_parquet(io.BytesIO(parquet_file))
@@ -45,11 +45,29 @@ def lambda_handler(event, context):
             num_records = random.randint(1, 3)
             data = raw_data.sample(n=num_records)
             print('num of records ' + str(num_records))
-
+            
+            
             for index, record in data.iterrows():
-                unique_key = ','.join(
-                    [str(record['VendorID']), str(record['lpep_pickup_datetime']), str(record['lpep_dropoff_datetime']),
-                     str(record['fare_amount'])])
+                
+                if identifier == 'green':
+                    unique_key = ','.join([
+                        identifier,
+                        str(record['VendorID']),
+                        str(record['lpep_pickup_datetime']),
+                        str(record['lpep_dropoff_datetime']),
+                        str(record['fare_amount'])
+                    ])
+            
+                elif identifier == 'yellow':
+                    unique_key = ','.join([
+                        identifier,
+                        str(record['VendorID']),
+                        str(record['tpep_pickup_datetime']),
+                        str(record['tpep_dropoff_datetime']),
+                        str(record['fare_amount'])
+                    ])
+
+                    
                 hashed_key = md5(unique_key)
 
                 if hashed_key in existing_keys:
