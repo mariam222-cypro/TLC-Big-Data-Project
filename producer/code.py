@@ -42,7 +42,7 @@ def lambda_handler(event, context):
             parquet_file = response['Body'].read()
             raw_data = pd.read_parquet(io.BytesIO(parquet_file))
 
-            num_records = random.randint(1, 10)
+            num_records = random.randint(1, 3)
             data = raw_data.sample(n=num_records)
             print('num of records ' + str(num_records))
 
@@ -57,11 +57,11 @@ def lambda_handler(event, context):
                 else:
                     existing_keys.append(hashed_key)
                     print(record.to_json())
-                    # encoded = record.to_json().encode('utf-8')
-                    # kinesis_client.put_record(
-                    #     StreamName=kinesis_stream_name,
-                    #     Data=encoded,
-                    #     PartitionKey=identifier)
+                    encoded = record.to_json().encode('utf-8')
+                    kinesis_client.put_record(
+                        StreamName=kinesis_stream_name,
+                        Data=encoded,
+                        PartitionKey=identifier)
 
             updated_data = ",".join(existing_keys)
 
