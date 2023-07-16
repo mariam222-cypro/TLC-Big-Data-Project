@@ -95,3 +95,37 @@ VALUES
   ('HV0003', 'B02395', 'ABATAR LLC', 'Uber'),
   ('HV0004', 'B03136', 'GREENPOINT TRANSIT LLC', 'Via'),
   ('HV0004', 'B02800', 'FLATIRON TRANSIT LLC', 'Via');
+
+
+CREATE TABLE HVFHV_fact (
+  trip_id VARCHAR,
+  hvfhs_license VARCHAR,
+  dispatching_base_num VARCHAR,
+  originating_base_num VARCHAR,
+  request_datetime timestamp,
+  on_scene_datetime timestamp,
+  pickup_datetime timestamp,
+  dropoff_datetime timestamp,
+  PULocationID INT,
+  DOLocationID INT,
+  trip_distance FLOAT,
+  trip_time INT,
+  base_passenger_fare FLOAT,
+  tolls FLOAT,
+  bcf FLOAT,
+  sales_tax FLOAT,
+  congestion_surcharge FLOAT,
+  airport_fee FLOAT,
+  tips FLOAT,
+  driver_pay FLOAT,
+  shared_request_flag VARCHAR,
+  shared_match_flag VARCHAR,
+  access_a_ride_flag VARCHAR,
+  wav_request_flag VARCHAR,
+  wav_match_flag VARCHAR
+);
+
+
+COPY INTO HVFHV_fact
+FROM @my_stage/data_folder/fhvhv/2023-07-16/
+FILE_FORMAT = (TYPE = 'CSV', SKIP_HEADER = 1);
