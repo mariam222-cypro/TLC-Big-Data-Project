@@ -1,17 +1,17 @@
-CREATE TABLE Fact (
-  trip_id VARCHAR,
+CREATE TABLE Fact_green_yellow (
+  trip_id VARCHAR ,
   type VARCHAR,
   VendorID INT,
-  lpep_pickup_datetime timestamp,
-  lpep_dropoff_datetime timestamp,
+  pickup_datetime VARCHAR,
+  dropoff_datetime VARCHAR,
   DOLocationID INT,
   PULocationID INT,
-  trip_type INT,
+  trip_type VARCHAR,
   store_and_fwd_flag VARCHAR,
   trip_distance FLOAT,
   passenger_count INT,
   payment_type VARCHAR,
-  RateCode VARCHAR,
+  ratecode VARCHAR,
   extra FLOAT,
   congestion_surcharge FLOAT,
   mta_tax FLOAT,
@@ -20,15 +20,16 @@ CREATE TABLE Fact (
   tolls_amount FLOAT,
   tip_amount FLOAT,
   improvement_surcharge FLOAT,
-  total_amount FLOAT
+  total_amount FLOAT,
+  airport_fee FLOAT
 );
 
-COPY INTO fact
-FROM @my_stage/consumer_output.csv
-FILE_FORMAT = (
-  TYPE = 'CSV'
-  SKIP_HEADER = 1
-);
+ALTER TABLE fact_green_yellow
+ADD CONSTRAINT pk_fact_green_yellow PRIMARY KEY (trip_id);
+
+COPY INTO FACT_GREEN_YELLOW
+FROM @my_stage/data_folder/2023-07-16/
+FILE_FORMAT = (TYPE = 'CSV', SKIP_HEADER = 1);
 
 
 
