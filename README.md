@@ -24,16 +24,17 @@
 
  The data pipeline in this project consists of two paths:
 
- 1. **Path 0 - Streaming API and Queueing System**:
+ 1. **Path 0A - Streaming API and Queueing System**:
 
-    <img width="556" alt="Screenshot 2023-07-18 at 2 15 49 PM" src="https://github.com/mariam222-cypro/TLC-Big-Data-Project/assets/77588576/6eb5d769-72e6-4433-aad7-4da0ac3f179c">
+      <img width="556" alt="Screenshot 2023-07-18 at 2 15 49 PM" src="https://github.com/mariam222-cypro/TLC-Big-Data-Project/assets/77588576/6eb5d769-72e6-4433-aad7-4da0ac3f179c">
 
   - **S3**: The raw data files were uploaded to an S3 bucket.
  - **AWS Lambda**: Lambda function was created that triggers whenever new data is added to the S3 bucket.
    - This function reads the new data and puts it into a Kinesis Data Stream after applying the nessesery transformation.
 
-   
-<img width="607" alt="Screenshot 2023-07-18 at 2 17 18 PM" src="https://github.com/mariam222-cypro/TLC-Big-Data-Project/assets/77588576/a56c5532-37ec-447f-9dcd-bb0ea3712e17">
+ 2. **Path 0B - Queueing System**:
+    
+       <img width="607" alt="Screenshot 2023-07-18 at 2 17 18 PM" src="https://github.com/mariam222-cypro/TLC-Big-Data-Project/assets/77588576/a56c5532-37ec-447f-9dcd-bb0ea3712e17">
     
 - The Kinesis Data Stream serves as a buffer for the incoming data to manage real-time ingestion and processing.
 - Kinesis Data Streams capture and store data records in the order that they're generated, and allow multiple consumers to process the data in parallel.
@@ -48,7 +49,7 @@
 
  2. **Path 2 - Batching data Process**:
     
-<img width="929" alt="Screenshot 2023-07-18 at 2 16 28 PM" src="https://github.com/mariam222-cypro/TLC-Big-Data-Project/assets/77588576/bd3a4275-eb53-4f27-abfd-9ebcaa1e0476">
+    <img width="929" alt="Screenshot 2023-07-18 at 2 16 28 PM" src="https://github.com/mariam222-cypro/TLC-Big-Data-Project/assets/77588576/bd3a4275-eb53-4f27-abfd-9ebcaa1e0476">
 
 
    - **Kinesis Data Streams**: From the same Kinesis Data Stream as above, another consumer is set up.
